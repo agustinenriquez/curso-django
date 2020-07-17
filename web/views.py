@@ -5,6 +5,7 @@ import requests
 from bs4 import BeautifulSoup
 from django.views.decorators.csrf import csrf_exempt
 import json
+import csv
 import os
 from django.shortcuts import render
 from tienda.settings import DEBUG
@@ -17,15 +18,6 @@ def index(request):
     context = {"hello": "Hola, Mundo!", "products": todos_los_productos, "productform": ProductForm()}
     return render(request, "web/index.html", context)
 
-
-def profile(request):
-    return render(request, 'web/profile.html')
-
-
-def acerca_de(request):
-    return HttpResponse("Hola")
-
-
 def listado_de_productos(request):
     # Consulta SQLite 
     list_products = {}
@@ -33,18 +25,11 @@ def listado_de_productos(request):
         list_products[product.name] = product.price
     return JsonResponse(list_products)
 
-
 def scrap_dollar(request):
     req = requests.get("https://www.dolarhoy.com")
     soup = BeautifulSoup(req.text)
     precio_dolar = soup.find_all('div', {'class': 'col-6', 'class': 'text-center'})[0]
     return HttpResponse(precio_dolar.findChildren('span')[0].text.strip())
-
-
-@csrf_exempt
-def mi_endpoint(request):
-    return 'Hola'
-
 
 def cotizacion_dolar(request):
     # Ejercicio clase 1.
@@ -53,29 +38,30 @@ def cotizacion_dolar(request):
     respuesta_html = f"<h1>Compra: {cotizacion_dolar_json['buy_price']} </h1></br><h1>Venta: {cotizacion_dolar_json['sale_price']}</h1>"
     return HttpResponse(respuesta_html)
 
-
 def aeropuertos_json(request):
-    # Ejercicio 2
+    # Ejercicio 2 A
     ruta_aeropuertos = os.path.dirname(os.path.abspath(__file__)) + "/aeropuertos.csv"
-    diccionario_respuesta = {}
-    with open(ruta_aeropuertos, mode="r") as file:
-        aeropuertos = file.readlines()
+    aeropuertos_lista = []
+    with open(ruta_aeropuertos, mode="r") as csvfile:
+        aeropuertos = csv.reader(csvfile, delimiter=",")
         for aeropuerto in aeropuertos:
-            aeropuerto_splitted = aeropuerto.split(",")
-    return HttpResponse(diccionario_respuesta)
-
+            item = {}
+            item['ciudad'] = aeropuerto[0]
+            item['estado'] = aeropuerto[1]
+            item['lan'] = aeropuerto[2]
+            item['lon'] = aeropuerto[3]
+            aeropuertos_lista.append(item)          
+    return JsonResponse(json.dumps(aeropuertos_lista), safe=False)
 
 def aeropuertos(request):
-    # Ejercicio 2
+    # Ejercicio 2 B
     ruta_aeropuertos = os.path.dirname(os.path.abspath(__file__)) + "/aeropuertos.csv"
     respuesta_html = ""
-    with open(ruta_aeropuertos, mode="r") as file:
-        aeropuertos = file.readlines()
+    with open(ruta_aeropuertos, mode="r") as csvfile:
+        aeropuertos = csv.reader(csvfile, delimiter=",")
         for aeropuerto in aeropuertos:
-            aeropuerto_splitted = aeropuerto.split(",")
-            respuesta_html += f"Ciudad: {aeropuerto_splitted[0]}, Estado:{aeropuerto_splitted[1]} </br>" 
+            respuesta_html += f"Ciudad: {aeropuerto[0]}, Estado: {aeropuerto[1]} </br>" 
     return HttpResponse(respuesta_html)
-
 
 def crear_curso(request):
     new_product = Product.objects.create(name=request.POST['name'], price=request.POST['price'])
@@ -83,7 +69,6 @@ def crear_curso(request):
         return HttpResponse("OK")
     else:
         return HttpResponse("Not created.")
-
 
 def formulario_curso(request):
     form = ProductForm
