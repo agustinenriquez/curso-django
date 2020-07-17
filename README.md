@@ -55,4 +55,4 @@ En VSCODE:
 
 Deberias tener el tree asi:
 
-    ![alt text](https://github.com/m0tz/curso-django/blob/clase2/img/tree.png?raw=true)
+![alt text](https://github.com/m0tz/curso-django/blob/clase2/img/tree.png?raw=true)
