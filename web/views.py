@@ -35,7 +35,10 @@ def cotizacion_dolar(request):
     # Ejercicio clase 1.
     req = requests.get("https://api.recursospython.com/dollar")
     cotizacion_dolar_json = json.loads(req.text)
-    respuesta_html = f"<h1>Compra: {cotizacion_dolar_json['buy_price']} </h1></br><h1>Venta: {cotizacion_dolar_json['sale_price']}</h1>"
+    respuesta_html = (
+        f"<h1>Compra: {cotizacion_dolar_json['buy_price']}"
+        f"</h1></br><h1>Venta: {cotizacion_dolar_json['sale_price']}</h1>"
+    )
     return HttpResponse(respuesta_html)
 
 def aeropuertos_json(request):
