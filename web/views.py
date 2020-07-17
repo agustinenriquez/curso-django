@@ -81,3 +81,6 @@ def formulario_curso(request):
     form.base_fields['price'].initial = initial_product.price
     context = {"form": form}
     return render(request, "web/alta_cursos.html", context)
+
+
+# Ejercicios de Laboratorio clase 2
