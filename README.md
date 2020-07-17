@@ -52,3 +52,7 @@ En VSCODE:
         Django version 3.0.8, using settings 'tienda.settings'
         Starting development server at http://127.0.0.1:8000/
         Quit the server with CONTROL-C.
+
+Deberias tener el tree asi:
+
+    ![alt text](https://github.com/m0tz/curso-django/blob/clase2/img/tree.png?raw=true)
