@@ -1,5 +1,4 @@
 # curso-django
-# curso-django
 
 Cada clase tiene un branch asignado.
 
