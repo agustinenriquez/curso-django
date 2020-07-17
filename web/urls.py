@@ -7,4 +7,7 @@ urlpatterns = [
     path("acerca_de/", views.acerca_de, name="acerca_de"),
     path("lista_productos/", views.listado_de_productos, name="listado_productos"),
     path("scrap/dolar/", views.scrap_dollar, name="scrap_dollar"),
+    # Laboratorio 1
+    path("aeropuertos", views.aeropuertos, name="aeropuertos"),
+    path("aeropuertos/json/", views.aeropuertos_json, name="aeropuertos-json"),
 ]
