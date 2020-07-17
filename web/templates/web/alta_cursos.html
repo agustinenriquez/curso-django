@@ -1,0 +1,11 @@
+{% extends 'web/index.html' %}
+
+
+{% block content %}
+    <h1>Crear Curso</h1>
+    <form action="{% url 'crear-curso' %}" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}    
+        <input type="submit" value="Submit">
+    </form>
+{% endblock %}
