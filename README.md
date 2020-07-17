@@ -5,7 +5,7 @@ Cada clase tiene un branch asignado.
 Instalacion:
 
     git clone https://github.com/m0tz/curso-django/
-    virtualenv -p python3.6 env
+    virtualenv -p python3.8 env
     git checkout clase1
     pip install -r requirements.txt
     code .
