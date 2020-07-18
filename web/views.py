@@ -50,10 +50,8 @@ def aeropuertos_json(request):
         aeropuertos = csv.reader(csvfile, delimiter=",")
         for aeropuerto in aeropuertos:
             item = {}
-            item['ciudad'] = aeropuerto[0]
-            item['estado'] = aeropuerto[1]
-            item['lan'] = aeropuerto[2]
-            item['lon'] = aeropuerto[3]
+            item['ciudad'], item['estado'] = aeropuerto[0], aeropuerto[1]
+            item['lan'], item['lon']= aeropuerto[2], aeropuerto[3]
             aeropuertos_lista.append(item)          
     return JsonResponse(json.dumps(aeropuertos_lista), safe=False)
 
