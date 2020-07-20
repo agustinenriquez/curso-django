@@ -8,7 +8,7 @@ from .forms import ProductForm
 
 def index(request):
     todos_los_productos = Product.objects.all() # SELECT * FROM Products
-    context = {"hello": "Hola, Mundo!", "products": todos_los_productos, "productform": ProductForm()}
+    context = {"products": todos_los_productos, "productform": ProductForm()}
     return render(request, "web/listado_cursos.html", context)
 
 def listado_de_productos(request):
