@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,6 +8,7 @@
     <title>Tienda</title>
 </head>
 <body>
+    <img src="{% static 'web/logo-educacionit.png' alt='logo_educacionit' %}"
     <a href="{% url 'aeropuertos' %}">Listado de Aeropuertos</a>
     <h1>{{hello}}</h1>
     <h2>Productos disponibles:</h2>
