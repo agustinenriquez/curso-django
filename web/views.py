@@ -1,14 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Product
-import requests
-from bs4 import BeautifulSoup
-from django.views.decorators.csrf import csrf_exempt
-import json
-import csv
-import os
 from django.shortcuts import render
-from tienda.settings import DEBUG
 from .forms import ProductForm
 # Create your views here.
 
