@@ -2,3 +2,8 @@
 body {
   padding-top: 3.5rem;
 }
+
+.container {
+  padding-top: 3.5rem;
+  padding: 4rem 2rem;
+}
