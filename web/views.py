@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
 from .models import Product
-from django.shortcuts import render
 from .forms import ProductForm
 # Create your views here.
 
@@ -11,7 +10,7 @@ def index(request):
     context = {"products": todos_los_productos, "productform": ProductForm()}
     return render(request, "web/listado_cursos.html", context)
 
-def listado_de_productos(request):
+def listado_de_cursos(request):
     # Consulta SQLite 
     list_products = {}
     for product in Product.objects.all():
