@@ -19,9 +19,9 @@
 {% endblock %}
 
 {% block content %}
-    {% for product in products %}
-        {% if product.price < 100 %}
-            <li>{{product.name}} - {{product.price}}</li>
+    {% for curso in cursos %}
+        {% if curso.price < 100 %}
+            <li>{{curso.name}} - {{curso.price}}</li>
         {% endif %}
     {% endfor %}
     <div class="col-md-4">

@@ -1,16 +1,8 @@
 from django.contrib import admin
-from .models import Product, Cart
+from .models import Curso
 # Register your models here.
 
 
-@admin.register(Product)
-class ProductAdmin(admin.ModelAdmin):
+@admin.register(Curso)
+class CursoAdmin(admin.ModelAdmin):
     list_display = ("name", "price")
-
-
-@admin.register(Cart)
-class CartAdmin(admin.ModelAdmin):
-
-    class Meta:
-        model = Cart
-        fields = '__all__'

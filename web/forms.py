@@ -1,15 +1,15 @@
-from .models import Product
+from .models import Curso
 from django import forms
 from django.forms import ModelMultipleChoiceField
 
 
-class ProductForm(forms.ModelForm):
+class CursoForm(forms.ModelForm):
     cursos = forms.ModelMultipleChoiceField(queryset=None)
     
     class Meta:
-        model = Product
-        fields = '__all__' # Todos los campos del modelo Product
+        model = Curso
+        fields = '__all__' # Todos los campos del modelo Curso
 
     def __init__(self, *args, **kwargs):
-        super(ProductForm, self).__init__(*args, **kwargs)
-        self.fields['cursos'].queryset = Product.objects.all()
+        super(CursoForm, self).__init__(*args, **kwargs)
+        self.fields['cursos'].queryset = Curso.objects.all()
