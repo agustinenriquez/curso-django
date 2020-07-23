@@ -84,3 +84,7 @@ def formulario_curso(request):
 
 
 # Ejercicios de Laboratorio clase 2
+
+def peliculas(request, nombre_pelicula, id_comentario):
+    respuesta = f"Comentario numbero {id_comentario} de la pelicula {nombre_pelicula}"
+    return HttpResponse(respuesta)
