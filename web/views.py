@@ -11,9 +11,9 @@ def index(request):
     return render(request, "web/listado_cursos.html", context)
 
 def listado_de_cursos(request):
-    # Consulta SQLite 
     cursos = {}
-    for curso in Curso.objects.all():
+    # Consulta SQLite 
+    for curso in Curso.objects.all(): 
         cursos[curso.name] = curso.price
     return JsonResponse(curso)
 
