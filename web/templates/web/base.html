@@ -26,10 +26,10 @@
               <a class="nav-link" href="#">Contacto</a>
             </li>
           </ul>
-          <form class="form-inline my-2 my-lg-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
+        <form class="form-inline busqueda my-2 my-lg-0" action="{% url 'busqueda' %}" method="get">
+          <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" name="submit" type="submit">Buscar</button>
+        </form>
         </div>
       {% endblock %}
     </nav>
@@ -47,5 +47,20 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="{% static '/js/popper.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript">
+      $(document).ready(function() {
+          $('form.busqueda').on('submit', function(e){
+            searchBox = $("input[name='q']").val()
+            if (searchBox == "" || !searchBox) {
+              e.preventDefault();
+            }
+          });
+          $('.content-markdown').each(function(){
+            var content = $(this).text()
+            var markedContent = marked(content)
+            $(this).html(markedContent)
+          })
+        });
+    </script>
   </body>
 </html>
