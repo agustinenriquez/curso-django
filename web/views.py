@@ -24,7 +24,7 @@ def formulario_curso(request):
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
+            form.save()
             return HttpResponseRedirect(reverse("index"))
     else:
         form = CursoForm()
@@ -35,7 +35,7 @@ def contacto(request):
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
-            form.save(commit=False)
+            form.save()
             return HttpResponseRedirect(reverse("index"))
     else:
         form = ContactoForm()

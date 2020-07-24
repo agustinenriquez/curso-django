@@ -20,10 +20,13 @@
         <div class="collapse navbar-collapse" id="navbarsExampleDefault">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-              <a class="nav-link" href="#">Cursos <span class="sr-only">(current)</span></a>
+              <a class="nav-link" href="{% url 'index' %}">Cursos <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Contacto</a>
+              <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'crear-curso' %}">Crear curso</a>
             </li>
           </ul>
         <form class="form-inline busqueda my-2 my-lg-0" action="{% url 'busqueda' %}" method="get">
