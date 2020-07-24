@@ -50,20 +50,5 @@
     <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>
     <script src="{% static '/js/popper.min.js' %}"></script>
     <script src="{% static '/js/bootstrap.min.js' %}"></script>
-    <script type="text/javascript">
-      $(document).ready(function() {
-          $('form.busqueda').on('submit', function(e){
-            searchBox = $("input[name='q']").val()
-            if (searchBox == "" || !searchBox) {
-              e.preventDefault();
-            }
-          });
-          $('.content-markdown').each(function(){
-            var content = $(this).text()
-            var markedContent = marked(content)
-            $(this).html(markedContent)
-          })
-        });
-    </script>
   </body>
 </html>
