@@ -5,7 +5,7 @@ from .models import Curso, Contacto
 
 @admin.register(Curso)
 class CursoAdmin(admin.ModelAdmin):
-    list_display = ("name", "price")
+    list_display = ("nombre", "inscriptos")
 
 
 @admin.register(Contacto)
