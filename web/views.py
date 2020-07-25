@@ -1,5 +1,5 @@
 from django.shortcuts import render, reverse
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
 from .models import Curso
 from .forms import CursoForm, FormularioBusqueda, ContactoForm
 from django.template import RequestContext
@@ -44,3 +44,11 @@ def contacto(request):
 def busqueda(request):
     cursos = Curso.objects.filter(name__contains=request.GET['q'])
     return render(request, "web/resultado_busqueda.html", {"cursos": cursos})
+
+
+def detalle_curso(request, *args, **kwargs):
+    if kwargs['pk']:
+        curso = Curso.objects.get(pk=kwargs['pk'])
+        return render(request, "web/detalle_curso.html", {"curso": curso})
+    else:
+        raise Http404
