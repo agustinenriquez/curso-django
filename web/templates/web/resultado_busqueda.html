@@ -5,11 +5,11 @@
     <div class="row">
       {% for curso in cursos %}
         <div class="col-md-4">
-        <h2>{{curso.name}}</h2>
+        <h2>{{curso.nombre}}</h2>
         <p>Donec dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
         ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. 
         Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">{{curso.price}}</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'detalle-curso' curso.pk %}" role="button">Detalle</a></p>
         </div>
       {% endfor %}
     </div>

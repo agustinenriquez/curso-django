@@ -42,7 +42,7 @@ def contacto(request):
     return render(request, "web/formulario_contacto.html", {'form': form})
 
 def busqueda(request):
-    cursos = Curso.objects.filter(name__contains=request.GET['q'])
+    cursos = Curso.objects.filter(nombre__contains=request.GET['q'])
     return render(request, "web/resultado_busqueda.html", {"cursos": cursos})
 
 

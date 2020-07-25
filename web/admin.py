@@ -17,7 +17,7 @@ class ContactoAdmin(admin.ModelAdmin):
 
 @admin.register(Alumno)
 class AlumnoAdmin(admin.ModelAdmin):
-    list_display = ("nombre_completo", "nombre", "apellido", "cursos", "email", "edad", )
+    list_display = ("nombre_completo", "nombre", "apellido", "cursos", "email", "edad")
 
     def nombre_completo(self, obj):
         return f'{obj.nombre} {obj.apellido}'

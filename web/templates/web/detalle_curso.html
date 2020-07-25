@@ -4,28 +4,35 @@
 {% block content %}
     <div class="row">
       <div class="col-md-4">
-            <h2>{{curso.nombre}}</h2>
-            <p>Donec dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, 
-            ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. 
-            Donec sed odio dui. </p>
-            <p><a class="btn btn-secondary" href="{% url 'detalle-curso' curso.pk %}" role="button">Detalle</a></p>
+            <h2>{{ curso.nombre }}</h2>
+            <p>{{ curso.detalle }}</p>
       </div>
       <div class="col-md-1"></div> 
       <div class="col-md-4">
-            <img src="{% static 'web/python-django.jpeg' %}" alt="curso python django">
+            <img id="imagen-curso" src="{{ curso.imagen }}" alt="curso python django">
       </div>
       <div class="col-md-3"></div>
     </div>
-      <div class="row">
-        <div class="col-md-4">
-            <h3>Turnos</h3>
-            <ul class="list-group">
-            {% for turno, horario in curso.TURNOS %}
-                <li class="list-group-item">{{turno}}</li>
-            {% endfor %}
-            </ul>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+        <button type="button" class="btn btn-primary btn-lg btn-block">Inscribirme</button>
+        <button type="button" class="btn btn-secondary btn-lg btn-block">Consultar</button>
         </div>
-        <div class="col-md-4"> adsads</div>
-        <div class="col-md-4">asdasd</div>
+    </div>
+    <hr>
+      <div class="row">
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="button" class="btn btn-lg btn-btn-light" disabled>Horarios:</button>
+                {% for turno, horario in curso.TURNOS %}
+                    <button type="button" class="btn btn-lg btn-light" disabled>{{turno}}</button>
+                {% endfor %}
+            </p>
+        </div>
       </div>
+    <script>
+        let imagen_curso = document.querySelector('img[id=imagen-curso]');
+        imagen_curso.src = imagen_curso.src.slice(imagen_curso.src.indexOf('static')-1);
+    </script>
 {% endblock %}
