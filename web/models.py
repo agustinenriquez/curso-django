@@ -18,3 +18,14 @@ class Contacto(models.Model):
 
     def __str__(self):
         return self.author
+
+
+class Alumno(models.Model):
+    nombre = models.CharField(max_length=50, blank=False)
+    apellido = models.CharField(max_length=50, blank=False)
+    edad = models.IntegerField(default=0)
+    email = models.EmailField(max_length=254)
+    cursos = models.ForeignKey("Curso", on_delete=models.CASCADE, default=None)
+
+    def __str__(self):
+        return f"{self.nombre} {self.apellido}"
