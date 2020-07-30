@@ -6,12 +6,18 @@ from .forms import CursoForm, FormularioBusqueda, ContactoForm
 
 
 def index(request):
+    """
+        Devuelve el index con el listado de todos los cursos.
+    """
     cursos = Curso.objects.all() # SELECT * FROM Curso
     context = {"cursos": cursos, "cursoform": CursoForm(), "searchform": FormularioBusqueda()}
     return render(request, "web/listado_cursos.html", context)
 
 
 def listado_de_cursos(request):
+    """
+        Devuelve un Json con todos los cursos.
+    """
     cursos = {}
     # Consulta SQLite 
     for curso in Curso.objects.all():
@@ -20,6 +26,10 @@ def listado_de_cursos(request):
 
 
 def formulario_curso(request):
+    """
+        Devuelve el formulario de creacion de cursos y procesa las requests POST
+        que llegan a traves de él.
+    """
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
@@ -31,6 +41,9 @@ def formulario_curso(request):
 
 
 def contacto(request):
+    """
+        Devuelve el formulario de contacto definido en forms.py
+    """
     if request.method == 'POST':
         form = ContactoForm(request.POST)
         if form.is_valid():
@@ -42,11 +55,17 @@ def contacto(request):
 
 
 def busqueda(request):
+    """
+        Devuelve resultados de busqueda hechos a traves del input del base.html.
+    """
     cursos = Curso.objects.filter(nombre__contains=request.GET['q'])
     return render(request, "web/resultado_busqueda.html", {"cursos": cursos})
 
 
 def detalle_curso(request, *args, **kwargs):
+    """
+        Devuelve el detalle de un curso usando la pk definida en urls.py
+    """
     if kwargs['pk']:
         curso = Curso.objects.get(pk=kwargs['pk'])
         return render(request, "web/detalle_curso.html", {"curso": curso})
