@@ -16,14 +16,14 @@ class FormularioCursos(forms.Form):
     turno = forms.ChoiceField(choices=TURNOS, required=True)
     fecha_inicio = forms.DateField(label="Fecha de inicio", input_formats=["%d/%m/%Y"])
 
-    def __str(self):
+    def __str__(self):
         return self.nombre
 
 
 class FormularioBusqueda(forms.Form):
     search_box = forms.CharField(label="Nombre", max_length=50, required=False)
 
-    def __str(self):
+    def __str__(self):
         return self.search_box
 
 class ContactoForm(forms.ModelForm):

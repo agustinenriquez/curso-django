@@ -1,8 +1,7 @@
 from django.shortcuts import render, reverse
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect, Http404
+from django.http import JsonResponse, HttpResponseRedirect, Http404
 from .models import Curso
 from .forms import CursoForm, FormularioBusqueda, ContactoForm
-from django.template import RequestContext
 # Create your views here.
 
 
@@ -40,6 +39,7 @@ def contacto(request):
     else:
         form = ContactoForm()
     return render(request, "web/formulario_contacto.html", {'form': form})
+
 
 def busqueda(request):
     cursos = Curso.objects.filter(nombre__contains=request.GET['q'])
