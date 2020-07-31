@@ -1,0 +1,40 @@
+{% extends 'web/base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <h2>{{curso.nombre}}</h2>
+            <p>{{curso.descripcion}}</p>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-md-4">
+            <img id="imagen-curso" src="{{curso.imagen}}" alt="{{curso.nombre}}">
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-lg btn-block">
+                <a href="{% url 'inscripcion-curso' curso.pk %}">Inscribirme</a></button>
+            <button type="button" class="btn btn-secondary btn-lg btn-block">Mas informacion</button>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-md-12">
+            <p class="text-center">
+                <button type="button" class="btn btn-lg btn-btn-light" disabled>Horarios</button>
+                {% for turno, horario in curso.TURNOS %}
+                    <button type="button" class="btn btn-lg btn-light" disabled>{{turno}}</button>
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+
+    <script>
+        let imagen_curso = document.querySelector('img[id=imagen-curso]')
+        imagen_curso.src = imagen_curso.src.slice(imagen_curso.src.indexOf('static')-1);
+    </script>
+{% endblock %}
