@@ -7,7 +7,7 @@ class Curso(models.Model):
     inscriptos = models.IntegerField(default=0)
     turno = models.CharField(max_length=50, choices=TURNOS, blank=True)
     detalle = models.TextField(max_length=350, default=None, null=True)
-    imagen = models.ImageField(upload_to="web/static/web/", height_field=None, width_field=None, max_length=None, default=None, null=True)
+    imagen = models.ImageField(upload_to="web/static/web/", height_field=None, width_field=None, max_length=None, default=None, null=True, blank=True)
 
     def __str__(self):
         return self.nombre

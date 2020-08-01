@@ -2,6 +2,7 @@ from django.shortcuts import render, reverse
 from django.http import JsonResponse, HttpResponseRedirect, Http404
 from .models import Curso
 from .forms import CursoForm, FormularioBusqueda, ContactoForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
@@ -25,10 +26,11 @@ def listado_de_cursos(request):
     return JsonResponse(curso)
 
 
+@login_required
 def formulario_curso(request):
     """
         Devuelve el formulario de creacion de cursos y procesa las requests POST
-        que llegan a traves de él.
+        que llegan a traves de él. Se necesia estar logueado.
     """
     if request.method == 'POST':
         form = CursoForm(request.POST)
@@ -71,3 +73,20 @@ def detalle_curso(request, *args, **kwargs):
         return render(request, "web/detalle_curso.html", {"curso": curso})
     else:
         raise Http404
+
+
+def inscripcion_curso(request, *args, **kwargs):
+    """
+        Devuelve el formulario de inscripcion de cursos y procesa las requests POST
+        que llegan a traves de él.
+    """
+    if request.method == 'POST':
+        form = CursoForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse("index"))
+        else:
+            return render(request, "web/formulario_inscripcion.html", {"form_no_valido": True})
+    else:
+        form = CursoForm()
+        return render(request, "web/formulario_inscripcion.html", {"form": form})
