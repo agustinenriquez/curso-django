@@ -1,0 +1,22 @@
+{% extends 'web/base.html' %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4"></div>
+        <div class="col-md-4">
+            {% if form_no_valido %}
+                <h2>Algo falló, por favor revise el formulario.</h2>
+            {% endif %}
+            {% if ya_inscripto %}
+                <h2>Ya estás inscripto.</h2>
+            {% endif %}
+            <h2>Inscripcion a {{curso.nombre}}</h2>
+            <form action="{% url 'inscripcion-curso' curso.pk %}" method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Inscribirme">
+            </form>
+        </div>
+        <div class="col-md-4"></div>
+    </div>
+{% endblock %}

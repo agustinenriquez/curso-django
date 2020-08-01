@@ -1,7 +1,8 @@
 from django.shortcuts import render, reverse
 from django.http import JsonResponse, HttpResponseRedirect, Http404
-from .models import Curso
-from .forms import CursoForm, FormularioBusqueda, ContactoForm
+from django.core.exceptions import PermissionDenied
+from .models import Curso, Alumno
+from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -32,6 +33,8 @@ def formulario_curso(request):
         Devuelve el formulario de creacion de cursos y procesa las requests POST
         que llegan a traves de él. Se necesia estar logueado.
     """
+    if not request.user.is_superuser:
+        raise PermissionDenied
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
@@ -80,13 +83,30 @@ def inscripcion_curso(request, *args, **kwargs):
         Devuelve el formulario de inscripcion de cursos y procesa las requests POST
         que llegan a traves de él.
     """
+    curso = Curso.objects.get(pk=kwargs['pk'])
     if request.method == 'POST':
-        form = CursoForm(request.POST)
+        form = FormularioInscripcion(request.POST)
+        context = {"curso": curso, "form": form}
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse("index"))
+            alumno, created = Alumno.objects.get_or_create(
+                nombre=form.cleaned_data['nombre'],
+                apellido=form.cleaned_data['apellido'],
+                edad=form.cleaned_data['edad'],
+                email=form.cleaned_data['email'],
+                cursos=curso)
+            if created:
+                context["form_valido"] = True
+                return render(request,
+                    "web/formulario_inscripcion.html", context)
+            else:
+                context["ya_inscripto"] = True
+                return render(request,
+                    "web/formulario_inscripcion.html",
+                    context)
         else:
-            return render(request, "web/formulario_inscripcion.html", {"form_no_valido": True})
+            context["form_no_valido"] = True
+            return render(request, "web/formulario_inscripcion.html", context)
     else:
-        form = CursoForm()
-        return render(request, "web/formulario_inscripcion.html", {"form": form})
+        form = FormularioInscripcion()
+        context = {"curso": curso, "form": form}
+        return render(request, "web/formulario_inscripcion.html", context)

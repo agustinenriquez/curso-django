@@ -31,3 +31,16 @@ class ContactoForm(forms.ModelForm):
     class Meta:
         model = Contacto
         fields = '__all__'
+
+
+class FormularioInscripcion(forms.Form):
+    TURNOS = (('NOCHE', 'noche'), ('TARDE', 'tarde'), ('MAÑANA', 'manaña'))
+    nombre = forms.CharField(label="Nombre", max_length=50, required=False)
+    apellido = forms.CharField(label="Apellido", max_length=50, required=False)
+    edad = forms.IntegerField(label="Edad", required=False)
+    email = forms.EmailField(required=True)
+    telefono = forms.IntegerField(label="Telefono", required=True)
+    turno = forms.ChoiceField(choices=TURNOS, required=True)
+
+    def __str__(self):
+        return self.email
