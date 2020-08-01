@@ -25,9 +25,11 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'contacto' %}">Contacto</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'crear-curso' %}">Crear curso</a>
-            </li>
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'crear-curso' %}">Crear curso</a>
+              </li>
+            {% endif %}
           </ul>
         <form class="form-inline busqueda my-2 my-lg-0" action="{% url 'busqueda' %}" method="get">
           <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
