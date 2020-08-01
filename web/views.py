@@ -81,7 +81,7 @@ def detalle_curso(request, *args, **kwargs):
 def inscripcion_curso(request, *args, **kwargs):
     """
         Devuelve el formulario de inscripcion de cursos y procesa las requests POST
-        que llegan a traves de él.
+        que llegan a traves de él para enviar correos de confirmacion de inscripciones.
     """
     curso = Curso.objects.get(pk=kwargs['pk'])
     if request.method == 'POST':
