@@ -4,7 +4,7 @@ from django.core.exceptions import PermissionDenied
 from .models import Curso, Alumno
 from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion
 from django.contrib.auth.decorators import login_required
-# Create your views here.
+from django.core.mail import send_mail
 
 
 def index(request):
@@ -95,6 +95,13 @@ def inscripcion_curso(request, *args, **kwargs):
                 email=form.cleaned_data['email'],
                 cursos=curso)
             if created:
+                send_mail(
+                    f'Recibimos tu inscripción a {{curso.nombre}}',
+                    'Vas a recibir un correo de nuestro equipo para confirmar.',
+                    'inscripciones@educacionit.com.ar',
+                    [form.cleaned_data['email']],
+                    fail_silently=False,
+                )
                 context["form_valido"] = True
                 return render(request,
                     "web/formulario_inscripcion.html", context)

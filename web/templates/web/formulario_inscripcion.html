@@ -7,6 +7,9 @@
             {% if form_no_valido %}
                 <h2>Algo falló, por favor revise el formulario.</h2>
             {% endif %}
+            {% if form_valido %}
+                <h2>Inscripcion exitosa!</h2>
+            {% endif %}
             {% if ya_inscripto %}
                 <h2>Ya estás inscripto.</h2>
             {% endif %}
