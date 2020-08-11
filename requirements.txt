@@ -24,3 +24,5 @@ sqlparse==0.3.1
 traitlets==4.3.3
 urllib3==1.25.9
 wcwidth==0.2.5
+Pillow==7.2.0
+django-extensions==3.0.5
