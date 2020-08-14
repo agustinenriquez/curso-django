@@ -28,6 +28,8 @@ class Alumno(models.Model):
     apellido = models.CharField(max_length=50, blank=False)
     edad = models.IntegerField(default=0)
     email = models.EmailField(max_length=254)
+    dni = models.IntegerField(default=0)
+    telefono = models.IntegerField(default=0)
     cursos = models.ForeignKey("Curso", on_delete=models.CASCADE, default=None)
 
     def __str__(self):

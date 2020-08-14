@@ -5,6 +5,15 @@
 <div class="row">
     <div class="col-md-4"></div>
     <div class="col-md-4">
+        {% if form_no_valido %}
+            <h2>Algó falló, por favor revise el formulario.</h2>
+        {% endif %}
+        {% if form_valido %}
+            <h2>Inscripción exitosa!</h2>
+        {% endif %}
+        {% if ya_inscripto %}
+            <h2>Ya estas inscripto</h2>
+        {% endif %}
         <h2>Inscripcion a {{curso.nombre}}</h2>
         <form action="" method="POST">
             {% csrf_token %}

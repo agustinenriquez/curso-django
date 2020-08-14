@@ -1,9 +1,9 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Curso
-from .forms import CursoForm, FormularioBusqueda, ContactoForm
+from .models import Curso, Alumno
+from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion
 from django.template import RequestContext
-# Create your views here.
+from django.core.mail import send_mail
 
 
 def index(request):
@@ -59,12 +59,33 @@ def inscripcion_curso(request, *args, **kwargs):
     """
         Devuelve el formulario de inscripcion de un curso segun id.
     """
+    curso = Curso.objects.get(pk=kwargs['pk'])
     if request.method == 'POST':
-        form = CursoForm(request.POST)
+        form = FormularioInscripcion(request.POST)
+        context = {"curso": curso, "form": form}
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse("index"))
+            alumno, created = Alumno.objects.get_or_create(
+                nombre=form.cleaned_data['nombre'],
+                apellido=form.cleaned_data['apellido'],
+                edad=form.cleaned_data['edad'],
+                dni=form.cleaned_data['dni'],
+                email=form.cleaned_data['email'],
+                cursos=curso)
+            if created:
+                # send_email(f'Recibimos tu solicitud de inscripcion'
+                #             'al curso {curso.name}. Vas a recibir un correo de '
+                #             'confirmacion de inscripciones@cursodjango.com.ar',
+                #             [form.cleaned_data['email']],
+                #             fail_silently=False)
+                context['form_valido'] = True
+                return render(request, "web/inscripcion_curso.html", context)
+            else:
+                context['ya_inscripto'] = True
+                return render(request, "web/inscripcion_curso.html", context)
+        else:
+            context['form_no_valido'] = True
+            return render(request, "web/inscripcion_curso.html", context)
     else:
-        form = CursoForm()
+        form = FormularioInscripcion()
         return render(request, "web/inscripcion_curso.html", {"form": form})
 

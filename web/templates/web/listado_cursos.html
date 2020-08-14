@@ -7,7 +7,7 @@
         <h2>{{curso.nombre}}</h2>
         <p>{{curso.descripcion}}</p>
         <p>{{curso.precio}}</p>
-        <p><a class="btn btn-secondary" href="{% url 'detalle-curso' %}" role="button">Detalle</a></p>
+        <p><a class="btn btn-secondary" href="{% url 'detalle-curso' curso.pk %}" role="button">Detalle</a></p>
       </div>
     {% endfor %}
 {% endblock %}
