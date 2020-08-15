@@ -1,10 +1,21 @@
 from django.shortcuts import render, reverse
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from .models import Curso, Alumno
-from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion
+from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion, UserForm
 from django.template import RequestContext
 from django.core.mail import send_mail
+from django.views.generic import ListView, FormView, CreateView
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
+
+class IndexList(ListView):
+    model = Curso
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(nombre__contains="Django")
+    
 
 def index(request):
     cursos = Curso.objects.all() # SELECT * FROM Curso
@@ -20,12 +31,21 @@ def listado_de_cursos(request):
     return JsonResponse(curso)
 
 
+
+class FormularioCurso(FormView):
+    form_class = CursoForm
+
+
 def formulario_curso(request):
+    
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("index"))
+        else:
+            context = {"form": form, "formularioNoValido": "El formu no es valido."}
+            return render(request, "web/formulario_curso.html", context)
     else:
         form = CursoForm()
         return render(request, "web/formulario_curso.html", {"form": form})
@@ -89,3 +109,18 @@ def inscripcion_curso(request, *args, **kwargs):
         form = FormularioInscripcion()
         return render(request, "web/inscripcion_curso.html", {"form": form})
 
+
+class CreateUserView(CreateView):
+    model = User
+    form_class = UserForm
+    success_url = "/"
+    template_name = "web/create_user.html"
+
+    def form_valid(self, form):
+        """If the form is valid, save the associated model."""
+        self.object = form.save()
+        login(self.request, self.object)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return self.success_url

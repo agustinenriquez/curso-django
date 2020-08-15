@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block content %}
-    {% for curso in cursos %}
+    {% for curso in object_list %}
       <div class="col-md-4">
         <h2>{{curso.nombre}}</h2>
         <p>{{curso.descripcion}}</p>

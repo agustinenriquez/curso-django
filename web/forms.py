@@ -1,6 +1,7 @@
 from .models import Curso, Contacto
 from django import forms
 from django.core.validators import MaxValueValidator
+from django.contrib.auth.models import User
 
 
 class CursoForm(forms.ModelForm):
@@ -46,3 +47,9 @@ class FormularioInscripcion(forms.Form):
 
     def __str__(self):
         return self.email
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("username", "password", "email")
