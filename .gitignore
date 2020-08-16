@@ -1,5 +1,5 @@
 # Migration files
-pythonistas/web/migrations/*
+curso-django/web/migrations/*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
