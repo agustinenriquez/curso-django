@@ -1,12 +1,12 @@
-from django.shortcuts import render, reverse
-from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
-from .models import Curso, Alumno
-from .forms import CursoForm, FormularioBusqueda, ContactoForm, FormularioInscripcion, UserForm
-from django.template import RequestContext
-from django.core.mail import send_mail
-from django.views.generic import ListView, FormView, CreateView
-from django.contrib.auth.models import User
 from django.contrib.auth import login
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import render, reverse
+from django.views.generic import CreateView, FormView, ListView
+
+from .forms import (ContactoForm, CursoForm, FormularioBusqueda,
+                    FormularioInscripcion, UserForm)
+from .models import Alumno, Curso
 
 
 class IndexList(ListView):
@@ -15,11 +15,14 @@ class IndexList(ListView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(nombre__contains="Django")
-    
+
 
 def index(request):
-    cursos = Curso.objects.all() # SELECT * FROM Curso
-    context = {"cursos": cursos, "cursoform": CursoForm(), "searchform": FormularioBusqueda()}
+    cursos = Curso.objects.all()  # SELECT * FROM Curso
+    context = {
+        "cursos": cursos,
+        "cursoform": CursoForm(),
+        "searchform": FormularioBusqueda()}
     return render(request, "web/listado_cursos.html", context)
 
 
@@ -31,20 +34,20 @@ def listado_de_cursos(request):
     return JsonResponse(curso)
 
 
-
 class FormularioCurso(FormView):
     form_class = CursoForm
 
 
 def formulario_curso(request):
-    
     if request.method == 'POST':
         form = CursoForm(request.POST)
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse("index"))
         else:
-            context = {"form": form, "formularioNoValido": "El formu no es valido."}
+            context = {
+                "form": form,
+                "formularioNoValido": "El formu no es valido."}
             return render(request, "web/formulario_curso.html", context)
     else:
         form = CursoForm()
@@ -79,6 +82,7 @@ def inscripcion_curso(request, *args, **kwargs):
     """
         Devuelve el formulario de inscripcion de un curso segun id.
     """
+    PATH_HTML_CURSO = "web/inscripcion_curso.html"
     curso = Curso.objects.get(pk=kwargs['pk'])
     if request.method == 'POST':
         form = FormularioInscripcion(request.POST)
@@ -92,22 +96,17 @@ def inscripcion_curso(request, *args, **kwargs):
                 email=form.cleaned_data['email'],
                 cursos=curso)
             if created:
-                # send_email(f'Recibimos tu solicitud de inscripcion'
-                #             'al curso {curso.name}. Vas a recibir un correo de '
-                #             'confirmacion de inscripciones@cursodjango.com.ar',
-                #             [form.cleaned_data['email']],
-                #             fail_silently=False)
                 context['form_valido'] = True
-                return render(request, "web/inscripcion_curso.html", context)
+                return render(request, PATH_HTML_CURSO, context)
             else:
                 context['ya_inscripto'] = True
-                return render(request, "web/inscripcion_curso.html", context)
+                return render(request, PATH_HTML_CURSO, context)
         else:
             context['form_no_valido'] = True
-            return render(request, "web/inscripcion_curso.html", context)
+            return render(request, PATH_HTML_CURSO, context)
     else:
         form = FormularioInscripcion()
-        return render(request, "web/inscripcion_curso.html", {"form": form})
+        return render(request, PATH_HTML_CURSO, {"form": form})
 
 
 class CreateUserView(CreateView):
@@ -122,5 +121,5 @@ class CreateUserView(CreateView):
         login(self.request, self.object)
         return super().form_valid(form)
 
-    def get_success_url(self):
+    def get_success_url(self): 
         return self.success_url
