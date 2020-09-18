@@ -2,11 +2,12 @@ from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, reverse
-from django.views.generic import CreateView, FormView, ListView
+from django.views.generic import CreateView, FormView, ListView, DetailView
 
 from .forms import (ContactoForm, CursoForm, FormularioBusqueda,
                     FormularioInscripcion, UserForm)
 from .models import Alumno, Curso
+from datetime import date
 
 
 class IndexList(ListView):
@@ -70,12 +71,19 @@ def busqueda(request):
     return render(request, "web/resultado_busqueda.html", {"cursos": cursos})
 
 
-def detalle_curso(request, *args, **kwargs):
-    """
-        Devuelve el detalle de un curso usando la pk definida en urls.py
-    """
-    curso = Curso.objects.get(pk=kwargs['pk'])
-    return render(request, "web/detalle_curso.html", {'curso': curso})
+class CursoDetailView(DetailView):
+    model = Curso
+    template_name = "web/detalle_curso.html"
+
+    def get_object(self, queryset=None):
+        obj = super().get_object(queryset)
+        return obj
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["lafechadehoy"] = date.today()
+        return context
+
 
 
 def inscripcion_curso(request, *args, **kwargs):
