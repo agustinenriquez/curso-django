@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from .models import Product
 import requests
 from bs4 import BeautifulSoup
@@ -9,7 +9,7 @@ import csv
 import os
 from django.shortcuts import render
 from tienda.settings import DEBUG
-from .forms import ProductForm
+from .forms import ProductForm, UnForm
 # Create your views here.
 
 
@@ -79,3 +79,12 @@ def formulario_curso(request):
     form.base_fields['price'].initial = initial_product.price
     context = {"form": form}
     return render(request, "web/alta_cursos.html", context)
+
+def unform(request):
+    if request.method == "POST":
+        form = UnForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/') 
+    else:
+        form = UnForm()
+        return render(request, 'web/unform.html', {'form': form})

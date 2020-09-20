@@ -11,4 +11,5 @@ urlpatterns = [
     path("aeropuertos/json/", views.aeropuertos_json, name="aeropuertos-json"),
     path("crear-curso", views.crear_curso, name="crear-curso"),
     path("alta-curso", views.formulario_curso, name="alta-curso"),
+    path("unform/", views.unform, name="unform"),
 ]
