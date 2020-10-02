@@ -8,9 +8,14 @@ class Curso(models.Model):
     turno = models.CharField(max_length=50, choices=TURNOS, blank=True)
     detalle = models.TextField(max_length=350, default=None, null=True)
     imagen = models.ImageField(upload_to="web/static/web/", height_field=None, width_field=None, max_length=None, default=None, null=True, blank=True)
+    image_path = models.CharField(max_length=100, blank=True, null=True)
 
     def __str__(self):
         return self.nombre
+
+    def save(self, *args, **kwargs):
+        self.image_path = self.imagen
+        return super().save(*args, **kwargs)
 
 
 class Contacto(models.Model):
